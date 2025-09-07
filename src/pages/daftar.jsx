@@ -57,6 +57,24 @@ export default function Daftar() {
 }
       }
 
+      if (status === "rejected" && updated) {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/send-message`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nomor: updated.nomor,
+            pesan: `Halo ${updated.nama}, mohon maaf 🙏. Pendaftaran Anda *ditolak*. 
+Silakan hubungi admin di nomor 0812-3456-7890 atau email admin@sekolah.sch.id untuk informasi lebih lanjut.`,
+          }),
+        });
+        const data = await res.json();
+        console.log("Respon bot:", data);
+      } catch (err) {
+        console.error("Gagal panggil API bot:", err);
+      }
+    }
+
       setPendaftar((prev) =>
         prev.map((p) => (p.id === id ? { ...p, status } : p))
       );
