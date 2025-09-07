@@ -42,17 +42,19 @@ export default function Daftar() {
       // Kalau status = approved → kirim pesan WA via API bot di Railway
       if (status === "approved" && updated) {
         try {
-          await fetch(`${import.meta.env.VITE_API_URL}/send-message`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              nomor: updated.nomor, // pastikan format 62xxx
-              pesan: `Halo ${updated.nama}, selamat! 🎉\n\nPendaftaran PPDB Anda telah *DITERIMA*.`,
-            }),
-          });
-        } catch (err) {
-          console.error("Gagal panggil API bot:", err);
-        }
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/send-message`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomor: updated.nomor,
+      pesan: `Halo ${updated.nama}, selamat! 🎉 Pendaftaran Anda diterima.`
+    }),
+  });
+  const data = await res.json();
+  console.log("Respon bot:", data);
+} catch (err) {
+  console.error("Gagal panggil API bot:", err);
+}
       }
 
       setPendaftar((prev) =>
