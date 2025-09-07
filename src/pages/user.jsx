@@ -8,6 +8,7 @@ export default function Users() {
     nomor: "",
     nama: "",
   });
+  const [search, setSearch] = useState("");
 
   // Ambil data dari tabel users_wa
   async function loadUsers() {
@@ -72,6 +73,13 @@ export default function Users() {
     loadUsers();
   }, []);
 
+  // 🔍 Filter data berdasarkan search
+  const filteredUsers = users.filter(
+    (u) =>
+      u.nama.toLowerCase().includes(search.toLowerCase()) ||
+      u.nomor.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">👥 Data Users WA</h2>
@@ -93,14 +101,14 @@ export default function Users() {
         <div className="flex gap-2">
           <button
             onClick={saveUser}
-            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded"
+            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
           >
             {form.id ? "Update" : "Simpan"}
           </button>
           {form.id && (
             <button
               onClick={() => setForm({ id: null, nomor: "", nama: "" })}
-              className="bg-gray-400 hover:bg-gray-500 transition text-white font-semibold px-4 py-2 rounded"
+              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
             >
               Batal
             </button>
@@ -108,47 +116,57 @@ export default function Users() {
         </div>
       </div>
 
+      {/* Search Bar */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="🔍 Cari nama atau nomor..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border border-gray-300 rounded-lg px-3 py-2 w-full md:w-1/2"
+        />
+      </div>
+
       {/* Tabel Data */}
       <div className="overflow-x-auto">
-        <table className="w-full border border-green-200 rounded-lg shadow">
+        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden">
           <thead>
-            <tr className="bg-green-100 text-green-800">
-              <th className="p-2">Nomor</th>
-              <th className="p-2">Nama</th>
-              <th className="p-2">Tanggal</th>
-              <th className="p-2">Aksi</th>
+            <tr className="bg-green-600 text-white">
+              <th className="p-3 text-left">Nomor</th>
+              <th className="p-3 text-left">Nama</th>
+              <th className="p-3 text-left">Tanggal</th>
+              <th className="p-3 text-center">Aksi</th>
             </tr>
           </thead>
-          <tbody>
-            {users.map((u) => (
+          <tbody className="bg-white">
+            {filteredUsers.map((u) => (
               <tr key={u.id} className="border-t hover:bg-green-50">
-                <td className="p-2">{u.nomor}</td>
-                <td className="p-2">{u.nama}</td>
-                <td className="p-2">
-  {u.created_at
-    ? new Date(u.created_at).toLocaleString("id-ID", {
-        timeZone: "Asia/Jakarta",   // pastikan pakai zona waktu Jakarta
-      })
-    : "-"}
-</td>
-
-                <td className="p-2 text-center flex gap-2 justify-center">
+                <td className="p-3">{u.nomor}</td>
+                <td className="p-3">{u.nama}</td>
+                <td className="p-3">
+                  {u.created_at
+                    ? new Date(u.created_at).toLocaleString("id-ID", {
+                        timeZone: "Asia/Jakarta",
+                      })
+                    : "-"}
+                </td>
+                <td className="p-3 text-center flex gap-2 justify-center">
                   <button
                     onClick={() => editUser(u)}
-                    className="text-blue-600 hover:underline"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-sm"
                   >
-                    Edit
+                    ✏️ Edit
                   </button>
                   <button
                     onClick={() => deleteUser(u.id)}
-                    className="text-red-600 hover:underline"
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-sm"
                   >
-                    Hapus
+                    🗑️ Hapus
                   </button>
                 </td>
               </tr>
             ))}
-            {users.length === 0 && (
+            {filteredUsers.length === 0 && (
               <tr>
                 <td colSpan={4} className="p-4 text-center text-gray-500">
                   Belum ada data user.
