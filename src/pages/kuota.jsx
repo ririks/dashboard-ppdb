@@ -3,7 +3,12 @@ import { supabase } from "../lib/supabaseclient";
 
 export default function Kuota() {
   const [data, setData] = useState([]);
-  const [form, setForm] = useState({ id: null, jenjang_kode: "", jumlah: "", tahun_ajaran: "" });
+  const [form, setForm] = useState({
+    id: null,
+    jenjang_kode: "",
+    jumlah: "",
+    tahun_ajaran: "",
+  });
 
   // Load data
   async function loadKuota() {
@@ -68,20 +73,20 @@ export default function Kuota() {
       {/* Form Input */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-4 bg-green-50 p-4 rounded-2xl shadow">
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           placeholder="Jenjang"
           value={form.jenjang_kode}
           onChange={(e) => setForm({ ...form, jenjang_kode: e.target.value })}
         />
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           placeholder="Jumlah"
           type="number"
           value={form.jumlah}
           onChange={(e) => setForm({ ...form, jumlah: e.target.value })}
         />
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           placeholder="Tahun Ajaran"
           value={form.tahun_ajaran}
           onChange={(e) => setForm({ ...form, tahun_ajaran: e.target.value })}
@@ -90,14 +95,16 @@ export default function Kuota() {
         <div className="flex gap-2 col-span-1 md:col-span-4">
           <button
             onClick={saveKuota}
-            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
+            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
           >
             {form.id ? "Update" : "Simpan"}
           </button>
           {form.id && (
             <button
-              onClick={() => setForm({ id: null, jenjang_kode: "", jumlah: 0, tahun_ajaran: "" })}
-              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
+              onClick={() =>
+                setForm({ id: null, jenjang_kode: "", jumlah: 0, tahun_ajaran: "" })
+              }
+              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
             >
               Batal
             </button>
@@ -105,11 +112,11 @@ export default function Kuota() {
         </div>
       </div>
 
-      {/* Tabel Data */}
-      <div className="overflow-x-auto">
-        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden">
+      {/* Tabel Data (desktop) */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden text-sm">
           <thead>
-            <tr className="bg-green-100 text-black">
+            <tr className="bg-green-600 text-white">
               <th className="p-2 text-left">Jenjang</th>
               <th className="p-2 text-left">Jumlah</th>
               <th className="p-2 text-left">Tahun Ajaran</th>
@@ -125,13 +132,13 @@ export default function Kuota() {
                 <td className="p-2 flex gap-2 justify-center">
                   <button
                     onClick={() => editKuota(row)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-sm"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-xs"
                   >
                     ✏️ Edit
                   </button>
                   <button
                     onClick={() => deleteKuota(row.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-sm"
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-xs"
                   >
                     🗑️ Hapus
                   </button>
@@ -142,12 +149,3 @@ export default function Kuota() {
               <tr>
                 <td colSpan={4} className="text-center text-gray-500 p-4">
                   Belum ada data kuota.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
