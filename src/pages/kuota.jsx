@@ -52,8 +52,21 @@ export default function Kuota() {
   }
 
   useEffect(() => {
-    loadKuota();
-  }, []);
+  loadKuota();
+
+  const channel = supabase
+    .channel("kuota_changes")
+    .on("postgres_changes", { event: "*", schema: "public", table: "kuota_ppdb" }, (payload) => {
+      console.log("Kuota berubah:", payload);
+      loadKuota(); // refresh otomatis
+    })
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}, []);
+
 
   return (
     <div>
