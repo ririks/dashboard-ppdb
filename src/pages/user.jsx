@@ -131,7 +131,7 @@ export default function Users() {
       <div className="overflow-x-auto">
         <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden">
           <thead>
-            <tr className="bg-green-100 text-white">
+            <tr className="bg-green-100 text-green-800">
               <th className="p-3 text-left">Nomor</th>
               <th className="p-3 text-left">Nama</th>
               <th className="p-3 text-left">Tanggal</th>
