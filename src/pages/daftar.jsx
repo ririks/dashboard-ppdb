@@ -13,6 +13,11 @@ export default function Daftar() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(null);
 
+  // 🔍 Search & Filter
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterJenjang, setFilterJenjang] = useState("all");
+
   useEffect(() => {
     fetchPendaftar();
   }, []);
@@ -39,42 +44,49 @@ export default function Daftar() {
     if (!error) {
       const updated = pendaftar.find((p) => p.id === id);
 
-      // Kalau status = approved → kirim pesan WA via API bot di Railway
+      // === Approved message ===
       if (status === "approved" && updated) {
         try {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/send-message`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      nomor: updated.nomor,
-      pesan: `Halo ${updated.nama}, selamat! 🎉 Pendaftaran Anda diterima.`
-    }),
-  });
-  const data = await res.json();
-  console.log("Respon bot:", data);
-} catch (err) {
-  console.error("Gagal panggil API bot:", err);
-}
+          const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/send-message`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                nomor: updated.nomor,
+                pesan: `Halo ${updated.nama}, selamat! 🎉 Pendaftaran Anda diterima.`,
+              }),
+            }
+          );
+          const data = await res.json();
+          console.log("Respon bot:", data);
+        } catch (err) {
+          console.error("Gagal panggil API bot:", err);
+        }
       }
 
+      // === Rejected message ===
       if (status === "rejected" && updated) {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/send-message`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            nomor: updated.nomor,
-            pesan: `Halo ${updated.nama}, mohon maaf 🙏. Pendaftaran Anda *ditolak*. 
-Silakan hubungi admin di nomor 0812-3456-7890 atau email admin@sekolah.sch.id untuk informasi lebih lanjut.`,
-          }),
-        });
-        const data = await res.json();
-        console.log("Respon bot:", data);
-      } catch (err) {
-        console.error("Gagal panggil API bot:", err);
+        try {
+          const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/send-message`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                nomor: updated.nomor,
+                pesan: `Halo ${updated.nama}, mohon maaf 🙏. Pendaftaran Anda *ditolak*.\nSilakan hubungi admin di nomor 📞 0812-3456-7890 atau email ✉️ ppdb@axxxx.sch.id untuk informasi lebih lanjut.`,
+              }),
+            }
+          );
+          const data = await res.json();
+          console.log("Respon bot:", data);
+        } catch (err) {
+          console.error("Gagal panggil API bot:", err);
+        }
       }
-    }
 
+      // Update state UI
       setPendaftar((prev) =>
         prev.map((p) => (p.id === id ? { ...p, status } : p))
       );
@@ -95,17 +107,61 @@ Silakan hubungi admin di nomor 0812-3456-7890 atau email admin@sekolah.sch.id un
     }
   }
 
+  // 🔍 Filtered data
+  const filteredPendaftar = pendaftar.filter((p) => {
+    const matchName = p.nama.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = filterStatus === "all" || p.status === filterStatus;
+    const matchJenjang =
+      filterJenjang === "all" || p.jenjang_kode === filterJenjang;
+    return matchName && matchStatus && matchJenjang;
+  });
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">📋 Daftar Pendaftar PPDB</h1>
 
+      {/* Search & Filter */}
+      <div className="flex flex-col md:flex-row gap-3 mb-4">
+        <input
+          type="text"
+          placeholder="🔍 Cari nama..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border rounded-lg px-3 py-2 flex-1"
+        />
+
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="border rounded-lg px-3 py-2"
+        >
+          <option value="all">Semua Status</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+
+        <select
+          value={filterJenjang}
+          onChange={(e) => setFilterJenjang(e.target.value)}
+          className="border rounded-lg px-3 py-2"
+        >
+          <option value="all">Semua Jenjang</option>
+          <option value="TK">TK</option>
+          <option value="SD">SD</option>
+          <option value="SMP">SMP</option>
+          <option value="SMA">SMA</option>
+        </select>
+      </div>
+
+      {/* Daftar */}
       {loading ? (
         <p>Sedang memuat...</p>
-      ) : pendaftar.length === 0 ? (
-        <p>Belum ada pendaftar.</p>
+      ) : filteredPendaftar.length === 0 ? (
+        <p>Tidak ada pendaftar sesuai pencarian/filter.</p>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {pendaftar.map((p) => (
+          {filteredPendaftar.map((p) => (
             <div
               key={p.id}
               onClick={() => setSelected(p)}
