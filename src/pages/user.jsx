@@ -27,7 +27,6 @@ export default function Users() {
     }
 
     if (form.id) {
-      // Update
       await supabase
         .from("users_wa")
         .update({
@@ -36,7 +35,6 @@ export default function Users() {
         })
         .eq("id", form.id);
     } else {
-      // Insert baru
       await supabase.from("users_wa").insert([
         {
           nomor: form.nomor,
@@ -58,7 +56,7 @@ export default function Users() {
     });
   }
 
-  // Hapus user tanpa konfirmasi
+  // Hapus user
   async function deleteUser(id) {
     const { error } = await supabase.from("users_wa").delete().eq("id", id);
     if (error) {
@@ -87,13 +85,13 @@ export default function Users() {
       {/* Form Input */}
       <div className="bg-green-50 p-4 rounded-2xl shadow mb-4 grid grid-cols-1 md:grid-cols-3 gap-3">
         <input
-          className="border border-green-300 p-2 rounded"
+          className="border border-green-300 p-2 rounded text-sm"
           placeholder="Nomor WA"
           value={form.nomor}
           onChange={(e) => setForm({ ...form, nomor: e.target.value })}
         />
         <input
-          className="border border-green-300 p-2 rounded"
+          className="border border-green-300 p-2 rounded text-sm"
           placeholder="Nama"
           value={form.nama}
           onChange={(e) => setForm({ ...form, nama: e.target.value })}
@@ -101,14 +99,14 @@ export default function Users() {
         <div className="flex gap-2">
           <button
             onClick={saveUser}
-            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
+            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
           >
             {form.id ? "Update" : "Simpan"}
           </button>
           {form.id && (
             <button
               onClick={() => setForm({ id: null, nomor: "", nama: "" })}
-              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
+              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
             >
               Batal
             </button>
@@ -123,15 +121,15 @@ export default function Users() {
           placeholder="🔍 Cari nama atau nomor..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="border border-gray-300 rounded-lg px-3 py-2 w-full md:w-1/2"
+          className="border border-gray-300 rounded-lg px-3 py-2 w-full md:w-1/2 text-sm"
         />
       </div>
 
-      {/* Tabel Data */}
-      <div className="overflow-x-auto">
-        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden">
+      {/* Tabel Data (desktop) */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden text-sm">
           <thead>
-            <tr className="bg-green-100 text-black">
+            <tr className="bg-green-600 text-white">
               <th className="p-3 text-left">Nomor</th>
               <th className="p-3 text-left">Nama</th>
               <th className="p-3 text-left">Tanggal</th>
@@ -153,13 +151,13 @@ export default function Users() {
                 <td className="p-3 text-center flex gap-2 justify-center">
                   <button
                     onClick={() => editUser(u)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-sm"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-xs"
                   >
                     ✏️ Edit
                   </button>
                   <button
                     onClick={() => deleteUser(u.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-sm"
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-xs"
                   >
                     🗑️ Hapus
                   </button>
@@ -175,6 +173,45 @@ export default function Users() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="md:hidden space-y-3">
+        {filteredUsers.map((u) => (
+          <div key={u.id} className="bg-white shadow rounded-lg p-4">
+            <p>
+              <span className="font-semibold">Nomor:</span> {u.nomor}
+            </p>
+            <p>
+              <span className="font-semibold">Nama:</span> {u.nama}
+            </p>
+            <p>
+              <span className="font-semibold">Tanggal:</span>{" "}
+              {u.created_at
+                ? new Date(u.created_at).toLocaleString("id-ID", {
+                    timeZone: "Asia/Jakarta",
+                  })
+                : "-"}
+            </p>
+            <div className="mt-2 flex gap-2">
+              <button
+                onClick={() => editUser(u)}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-xs"
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={() => deleteUser(u.id)}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-xs"
+              >
+                🗑️ Hapus
+              </button>
+            </div>
+          </div>
+        ))}
+        {filteredUsers.length === 0 && (
+          <p className="text-center text-gray-500">Belum ada data user.</p>
+        )}
       </div>
     </div>
   );
