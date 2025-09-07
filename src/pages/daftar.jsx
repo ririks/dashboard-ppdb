@@ -205,45 +205,63 @@ export default function Daftar() {
             </span>
 
             {/* Preview file */}
-            <div className="mt-4 space-y-3">
-              {[
-                { key: "foto_url", label: "📷 Foto Peserta" },
-                { key: "kk_url", label: "📄 Kartu Keluarga" },
-                { key: "rapor_url", label: "📘 Rapor" },
-                { key: "ijazah_url", label: "🎓 Ijazah" },
-                { key: "akta_lahir_url", label: "🍼 Akta Lahir" },
-              ].map(({ key, label }) => {
-                const val = selected[key];
-                if (!val || val === "BELUM ADA") {
-                  return (
-                    <p key={key} className="text-gray-500 text-sm">
-                      {label} belum tersedia
-                    </p>
-                  );
-                }
-                if (key === "foto_url") {
-                  return (
-                    <img
-                      key={key}
-                      src={val}
-                      alt="Foto Pendaftar"
-                      className="rounded-lg w-full max-h-64 object-cover"
-                    />
-                  );
-                }
-                return (
-                  <a
-                    key={key}
-                    href={val}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-blue-500 text-sm underline block"
-                  >
-                    {label}
-                  </a>
-                );
-              })}
-            </div>
+           {/* Preview file */}
+<div className="mt-4 space-y-3">
+  {(() => {
+    // Tentukan dokumen wajib sesuai jenjang
+    let fields = [
+      { key: "foto_url", label: "📷 Foto Peserta" },
+      { key: "kk_url", label: "📄 Kartu Keluarga" },
+      { key: "akta_lahir_url", label: "🍼 Akta Lahir" },
+    ];
+
+    if (selected.jenjang_kode === "SMP") {
+      fields.push(
+        { key: "rapor_url", label: "📘 Rapor SD" },
+        { key: "ijazah_url", label: "🎓 Ijazah SD" }
+      );
+    } else if (selected.jenjang_kode === "SMA") {
+      fields.push(
+        { key: "rapor_url", label: "📘 Rapor SMP" },
+        { key: "ijazah_url", label: "🎓 Ijazah SMP" }
+      );
+    }
+    // TK & SD hanya foto + KK + akta
+
+    return fields.map(({ key, label }) => {
+      const val = selected[key];
+      if (!val || val === "BELUM ADA") {
+        return (
+          <p key={key} className="text-gray-500 text-sm">
+            {label} belum tersedia
+          </p>
+        );
+      }
+      if (key === "foto_url") {
+        return (
+          <img
+            key={key}
+            src={val}
+            alt="Foto Pendaftar"
+            className="rounded-lg w-full max-h-64 object-cover"
+          />
+        );
+      }
+      return (
+        <a
+          key={key}
+          href={val}
+          target="_blank"
+          rel="noreferrer"
+          className="text-blue-500 text-sm underline block"
+        >
+          {label}
+        </a>
+      );
+    });
+  })()}
+</div>
+
 
             {/* Tombol aksi */}
             <div className="mt-6 flex gap-2 flex-wrap">
