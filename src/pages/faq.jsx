@@ -27,7 +27,6 @@ export default function Faq() {
     }
 
     if (form.id) {
-      // Update data
       await supabase
         .from("faq")
         .update({
@@ -37,7 +36,6 @@ export default function Faq() {
         })
         .eq("id", form.id);
     } else {
-      // Insert baru (jangan kirim id)
       await supabase.from("faq").insert([
         {
           keyword: form.keyword,
@@ -47,12 +45,10 @@ export default function Faq() {
       ]);
     }
 
-    // Reset form
     setForm({ id: null, keyword: "", subkey: "", konten: "" });
     loadFaq();
   }
 
-  // Edit FAQ
   function editFaq(f) {
     setForm({
       id: f.id,
@@ -62,7 +58,6 @@ export default function Faq() {
     });
   }
 
-  // Hapus FAQ
   async function deleteFaq(id) {
     await supabase.from("faq").delete().eq("id", id);
     loadFaq();
@@ -79,19 +74,19 @@ export default function Faq() {
       {/* Form input FAQ */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4 bg-green-50 p-4 rounded-2xl shadow">
         <input
-          className="border border-green-300 p-2 rounded"
+          className="border border-green-300 p-2 rounded text-sm"
           placeholder="Keyword (contoh: syarat, jadwal, beasiswa)"
           value={form.keyword}
           onChange={(e) => setForm({ ...form, keyword: e.target.value })}
         />
         <input
-          className="border border-green-300 p-2 rounded"
+          className="border border-green-300 p-2 rounded text-sm"
           placeholder="Subkey (opsional, misal: SD, SMP)"
           value={form.subkey}
           onChange={(e) => setForm({ ...form, subkey: e.target.value })}
         />
         <textarea
-          className="border border-green-300 p-2 rounded col-span-1 md:col-span-3"
+          className="border border-green-300 p-2 rounded col-span-1 md:col-span-3 text-sm"
           rows={3}
           placeholder="Isi konten FAQ"
           value={form.konten}
@@ -100,7 +95,7 @@ export default function Faq() {
         <div className="col-span-1 md:col-span-3 flex gap-2">
           <button
             onClick={saveFaq}
-            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
+            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
           >
             {form.id ? "Update" : "Simpan"}
           </button>
@@ -109,7 +104,7 @@ export default function Faq() {
               onClick={() =>
                 setForm({ id: null, keyword: "", subkey: "", konten: "" })
               }
-              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
+              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
             >
               Batal
             </button>
@@ -117,11 +112,11 @@ export default function Faq() {
         </div>
       </div>
 
-      {/* Tabel daftar FAQ */}
-      <div className="overflow-x-auto">
-        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden">
+      {/* Tabel Data (desktop) */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden text-sm">
           <thead>
-            <tr className="bg-green-100 text-black">
+            <tr className="bg-green-600 text-white">
               <th className="p-2 text-left">Keyword</th>
               <th className="p-2 text-left">Subkey</th>
               <th className="p-2 text-left">Konten</th>
@@ -137,13 +132,13 @@ export default function Faq() {
                 <td className="p-2 text-center flex gap-2 justify-center">
                   <button
                     onClick={() => editFaq(f)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-sm"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-xs"
                   >
                     ✏️ Edit
                   </button>
                   <button
                     onClick={() => deleteFaq(f.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-sm"
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-xs"
                   >
                     🗑️ Hapus
                   </button>
@@ -159,6 +154,40 @@ export default function Faq() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="md:hidden space-y-3">
+        {data.map((f) => (
+          <div key={f.id} className="bg-white shadow rounded-lg p-4">
+            <p>
+              <span className="font-semibold">Keyword:</span> {f.keyword}
+            </p>
+            <p>
+              <span className="font-semibold">Subkey:</span> {f.subkey || "-"}
+            </p>
+            <p className="whitespace-pre-line">
+              <span className="font-semibold">Konten:</span> {f.konten}
+            </p>
+            <div className="mt-2 flex gap-2">
+              <button
+                onClick={() => editFaq(f)}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-xs"
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={() => deleteFaq(f.id)}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-xs"
+              >
+                🗑️ Hapus
+              </button>
+            </div>
+          </div>
+        ))}
+        {data.length === 0 && (
+          <p className="text-center text-gray-500">Belum ada data FAQ.</p>
+        )}
       </div>
     </div>
   );
