@@ -121,7 +121,7 @@ export default function Faq() {
       <div className="overflow-x-auto">
         <table className="w-full border border-green-200 rounded-lg shadow">
           <thead>
-            <tr className="bg-green-100 text-green-800">
+            <tr className="bg-green-100 text-black">
               <th className="p-2">Keyword</th>
               <th className="p-2">Subkey</th>
               <th className="p-2">Konten</th>
