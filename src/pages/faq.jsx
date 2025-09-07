@@ -100,7 +100,7 @@ export default function Faq() {
         <div className="col-span-1 md:col-span-3 flex gap-2">
           <button
             onClick={saveFaq}
-            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded"
+            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
           >
             {form.id ? "Update" : "Simpan"}
           </button>
@@ -109,7 +109,7 @@ export default function Faq() {
               onClick={() =>
                 setForm({ id: null, keyword: "", subkey: "", konten: "" })
               }
-              className="bg-gray-400 hover:bg-gray-500 transition text-white font-semibold px-4 py-2 rounded"
+              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
             >
               Batal
             </button>
@@ -119,16 +119,16 @@ export default function Faq() {
 
       {/* Tabel daftar FAQ */}
       <div className="overflow-x-auto">
-        <table className="w-full border border-green-200 rounded-lg shadow">
+        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden">
           <thead>
-            <tr className="bg-green-100 text-black">
-              <th className="p-2">Keyword</th>
-              <th className="p-2">Subkey</th>
-              <th className="p-2">Konten</th>
-              <th className="p-2">Aksi</th>
+            <tr className="bg-green-600 text-white">
+              <th className="p-2 text-left">Keyword</th>
+              <th className="p-2 text-left">Subkey</th>
+              <th className="p-2 text-left">Konten</th>
+              <th className="p-2 text-center">Aksi</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white">
             {data.map((f) => (
               <tr key={f.id} className="border-t hover:bg-green-50">
                 <td className="p-2 font-medium">{f.keyword}</td>
@@ -137,15 +137,15 @@ export default function Faq() {
                 <td className="p-2 text-center flex gap-2 justify-center">
                   <button
                     onClick={() => editFaq(f)}
-                    className="text-blue-600 hover:underline"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-sm"
                   >
-                    Edit
+                    ✏️ Edit
                   </button>
                   <button
                     onClick={() => deleteFaq(f.id)}
-                    className="text-red-600 hover:underline"
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-sm"
                   >
-                    Hapus
+                    🗑️ Hapus
                   </button>
                 </td>
               </tr>
