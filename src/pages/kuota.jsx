@@ -3,12 +3,7 @@ import { supabase } from "../lib/supabaseclient";
 
 export default function Kuota() {
   const [data, setData] = useState([]);
-  const [form, setForm] = useState({
-    id: null,
-    jenjang_kode: "",
-    jumlah: "",
-    tahun_ajaran: "",
-  });
+  const [form, setForm] = useState({ id: null, jenjang_kode: "", jumlah: "", tahun_ajaran: "" });
 
   // Load data
   async function loadKuota() {
@@ -33,13 +28,7 @@ export default function Kuota() {
         })
         .eq("id", form.id);
     } else {
-      await supabase.from("kuota_ppdb").insert([
-        {
-          jenjang_kode: form.jenjang_kode,
-          jumlah: form.jumlah,
-          tahun_ajaran: form.tahun_ajaran,
-        },
-      ]);
+      await supabase.from("kuota_ppdb").insert([form]);
     }
 
     setForm({ id: null, jenjang_kode: "", jumlah: 0, tahun_ajaran: "" });
@@ -101,9 +90,7 @@ export default function Kuota() {
           </button>
           {form.id && (
             <button
-              onClick={() =>
-                setForm({ id: null, jenjang_kode: "", jumlah: 0, tahun_ajaran: "" })
-              }
+              onClick={() => setForm({ id: null, jenjang_kode: "", jumlah: 0, tahun_ajaran: "" })}
               className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
             >
               Batal
@@ -149,3 +136,40 @@ export default function Kuota() {
               <tr>
                 <td colSpan={4} className="text-center text-gray-500 p-4">
                   Belum ada data kuota.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Card view (mobile) */}
+      <div className="md:hidden space-y-3">
+        {data.map((row) => (
+          <div key={row.id} className="bg-white shadow rounded-lg p-4">
+            <p><span className="font-semibold">Jenjang:</span> {row.jenjang_kode}</p>
+            <p><span className="font-semibold">Jumlah:</span> {row.jumlah}</p>
+            <p><span className="font-semibold">Tahun:</span> {row.tahun_ajaran}</p>
+            <div className="mt-2 flex gap-2">
+              <button
+                onClick={() => editKuota(row)}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-xs"
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={() => deleteKuota(row.id)}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-xs"
+              >
+                🗑️ Hapus
+              </button>
+            </div>
+          </div>
+        ))}
+        {data.length === 0 && (
+          <p className="text-center text-gray-500">Belum ada data kuota.</p>
+        )}
+      </div>
+    </div>
+  );
+}
