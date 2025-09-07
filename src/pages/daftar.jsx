@@ -39,10 +39,10 @@ export default function Daftar() {
     if (!error) {
       const updated = pendaftar.find((p) => p.id === id);
 
-      // Kalau status = approved → kirim pesan WA via API bot
+      // Kalau status = approved → kirim pesan WA via API bot di Railway
       if (status === "approved" && updated) {
         try {
-          await fetch("http://localhost:3000/send-message", {
+          await fetch(`${import.meta.env.VITE_API_URL}/send-message`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -192,5 +192,5 @@ export default function Daftar() {
         </div>
       )}
     </div>
-  )
+  );
 }
