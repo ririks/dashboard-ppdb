@@ -103,7 +103,7 @@ export default function Kuota() {
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden text-sm">
           <thead>
-            <tr className="bg-green-600 text-white">
+            <tr className="bg-green-100 text-white">
               <th className="p-2 text-left">Jenjang</th>
               <th className="p-2 text-left">Jumlah</th>
               <th className="p-2 text-left">Tahun Ajaran</th>
