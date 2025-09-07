@@ -24,7 +24,6 @@ export default function Biaya() {
     if (!error) setData(data);
   }
 
-  // simpan atau update
   async function saveBiaya() {
     if (!form.jenjang_kode || !form.tahun_ajaran) return;
 
@@ -98,47 +97,47 @@ export default function Biaya() {
       {/* form input */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4 bg-green-50 p-4 rounded-2xl shadow">
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           placeholder="Jenjang (SD/SMP/SMA)"
           value={form.jenjang_kode}
           onChange={(e) => setForm({ ...form, jenjang_kode: e.target.value })}
         />
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           placeholder="Tahun Ajaran"
           value={form.tahun_ajaran}
           onChange={(e) => setForm({ ...form, tahun_ajaran: e.target.value })}
         />
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           type="number"
           placeholder="Formulir"
           value={form.formulir}
           onChange={(e) => setForm({ ...form, formulir: +e.target.value })}
         />
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           type="number"
           placeholder="SPP"
           value={form.spp}
           onChange={(e) => setForm({ ...form, spp: +e.target.value })}
         />
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           type="number"
           placeholder="Uang Pangkal"
           value={form.uang_pangkal}
           onChange={(e) => setForm({ ...form, uang_pangkal: +e.target.value })}
         />
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           type="number"
           placeholder="Seragam"
           value={form.seragam}
           onChange={(e) => setForm({ ...form, seragam: +e.target.value })}
         />
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
           type="number"
           placeholder="Kegiatan"
           value={form.kegiatan}
@@ -148,7 +147,7 @@ export default function Biaya() {
         <div className="flex gap-2 col-span-2 md:col-span-4">
           <button
             onClick={saveBiaya}
-            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
+            className="bg-green-600 hover:bg-green-700 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
           >
             {form.id ? "Update" : "Simpan"}
           </button>
@@ -167,7 +166,7 @@ export default function Biaya() {
                   kegiatan: 0,
                 })
               }
-              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow"
+              className="bg-gray-500 hover:bg-gray-600 transition text-white font-semibold px-4 py-2 rounded-lg shadow text-sm"
             >
               Batal
             </button>
@@ -175,11 +174,11 @@ export default function Biaya() {
         </div>
       </div>
 
-      {/* tabel data */}
-      <div className="overflow-x-auto">
-        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden">
+      {/* tabel data desktop */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full border border-green-200 rounded-lg shadow overflow-hidden text-sm">
           <thead>
-            <tr className="bg-green-100 text-black">
+            <tr className="bg-green-600 text-white">
               <th className="p-2 text-left">Jenjang</th>
               <th className="p-2 text-left">Tahun</th>
               <th className="p-2 text-left">Formulir</th>
@@ -203,13 +202,13 @@ export default function Biaya() {
                 <td className="p-2 text-center flex gap-2 justify-center">
                   <button
                     onClick={() => editBiaya(b)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-sm"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-xs"
                   >
                     ✏️ Edit
                   </button>
                   <button
                     onClick={() => deleteBiaya(b.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-sm"
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-xs"
                   >
                     🗑️ Hapus
                   </button>
@@ -225,6 +224,38 @@ export default function Biaya() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* tampilan mobile pakai card */}
+      <div className="md:hidden space-y-3">
+        {data.map((b) => (
+          <div key={b.id} className="bg-white shadow rounded-lg p-4">
+            <p><span className="font-semibold">Jenjang:</span> {b.jenjang_kode}</p>
+            <p><span className="font-semibold">Tahun:</span> {b.tahun_ajaran}</p>
+            <p><span className="font-semibold">Formulir:</span> Rp {b.formulir.toLocaleString()}</p>
+            <p><span className="font-semibold">Uang Pangkal:</span> Rp {b.uang_pangkal.toLocaleString()}</p>
+            <p><span className="font-semibold">SPP:</span> Rp {b.spp.toLocaleString()}</p>
+            <p><span className="font-semibold">Seragam:</span> Rp {b.seragam.toLocaleString()}</p>
+            <p><span className="font-semibold">Kegiatan:</span> Rp {b.kegiatan.toLocaleString()}</p>
+            <div className="mt-2 flex gap-2">
+              <button
+                onClick={() => editBiaya(b)}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow text-xs"
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={() => deleteBiaya(b.id)}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg shadow text-xs"
+              >
+                🗑️ Hapus
+              </button>
+            </div>
+          </div>
+        ))}
+        {data.length === 0 && (
+          <p className="text-center text-gray-500">Belum ada data biaya.</p>
+        )}
       </div>
     </div>
   );
