@@ -275,7 +275,7 @@ export default function Daftar() {
           href={val}
           target="_blank"
           rel="noreferrer"
-          className="text-blue-500 text-sm underline block"
+          className="block text-gray-700 hover:text-black"
         >
           {label}
         </a>
