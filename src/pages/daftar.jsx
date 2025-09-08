@@ -259,13 +259,15 @@ export default function Daftar() {
       }
       if (key === "foto_url") {
         return (
-          <img
-            key={key}
-            src={val}
-            alt="Foto Pendaftar"
-            className="rounded-lg w-full max-h-64 object-cover"
-          />
-        );
+          <a href={val} target="_blank" rel="noreferrer">
+  <img
+    key={key}
+    src={val}
+    alt="Foto Pendaftar"
+    className="rounded-lg w-full max-h-64 object-cover cursor-pointer hover:opacity-90"
+  />
+</a>
+);
       }
       return (
         <a
