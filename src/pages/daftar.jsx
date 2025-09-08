@@ -168,7 +168,17 @@ export default function Daftar() {
               className="bg-white shadow-lg rounded-2xl p-4 border cursor-pointer hover:shadow-xl transition"
             >
               <h2 className="font-semibold text-lg">{p.nama}</h2>
-              <p className="text-sm text-gray-600">📞 {p.nomor}</p>
+              <p className="text-gray-700">
+  📞{" "}
+  <a
+    href={`https://wa.me/${selected.nomor}`}
+    target="_blank"
+    rel="noreferrer"
+    className="text-gray-700 hover:text-green-600 no-underline"
+  >
+    {selected.nomor}
+  </a>
+</p>
               <p className="text-sm text-gray-600">🗓️ {p.tgl_lahir}</p>
               <p className="text-sm text-gray-600">🧾 {p.nomor_kk}</p>
               <p className="text-sm text-gray-600">🎓 {p.jenjang_kode}</p>
