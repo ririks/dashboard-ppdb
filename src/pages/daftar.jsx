@@ -197,6 +197,8 @@ export default function Daftar() {
 
             <h2 className="text-xl font-bold mb-2">{selected.nama}</h2>
             <p className="text-gray-700">📞 {selected.nomor}</p>
+            <p className="text-sm text-gray-600">🗓️ {p.tgl_lahir}</p>
+              <p className="text-sm text-gray-600">🧾 {p.nomor_kk}</p>
             <p className="text-gray-700">🎓 {selected.jenjang_kode}</p>
             <span
               className={`inline-block text-white text-xs px-3 py-1 rounded mt-2 ${statusColor(
