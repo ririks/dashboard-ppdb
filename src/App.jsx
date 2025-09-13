@@ -17,7 +17,7 @@ function Sidebar({ active, setActive, isOpen, onClose }) {
     { key: "biaya", label: "Biaya" },
     { key: "faq", label: "FAQ" },
     { key: "users", label: "Users WA" },
-  { key: "pesan", label: "Pesan Log" },
+  { key: "pesan_log", label: "Pesan Log" },
   ];
 
   return (
