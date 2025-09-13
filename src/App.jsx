@@ -6,6 +6,7 @@ import Users from "./pages/user";
 import Beranda from "./pages/beranda";
 import Daftar from "./pages/daftar";
 import Pesan from "./pages/pesan_log";
+import Formsteps from "./pages/form_steps";
 
 import { Menu, X } from "lucide-react";
 
@@ -18,6 +19,7 @@ function Sidebar({ active, setActive, isOpen, onClose }) {
     { key: "faq", label: "FAQ" },
     { key: "users", label: "Users WA" },
   { key: "pesan_log", label: "Pesan Log" },
+    { key: "form_steps", label: "Form Steps" },
   ];
 
   return (
@@ -102,6 +104,7 @@ export default function App() {
           {active === "faq" && <Faq />}
           {active === "users" && <Users />}
           {active === "pesan_log" && <Pesan Log />}
+          {active === "form_steps" && <Form Steps />}
         </div>
       </div>
     </div>
