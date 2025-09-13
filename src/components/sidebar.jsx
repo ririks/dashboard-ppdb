@@ -1,5 +1,5 @@
 // src/components/sidebar.jsx
-import { Home, ClipboardList, Database, DollarSign, HelpCircle, Users, X } from "lucide-react";
+import { Home, ClipboardList, Database, DollarSign, HelpCircle, Users, MessageSquare, X } from "lucide-react";
 
 export function Sidebar({ active, setActive, isOpen, onClose }) {
   const menus = [
