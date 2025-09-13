@@ -101,6 +101,7 @@ export default function App() {
           {active === "biaya" && <Biaya />}
           {active === "faq" && <Faq />}
           {active === "users" && <Users />}
+          {active === "pesan_log" && <Pesan Log />}
         </div>
       </div>
     </div>
