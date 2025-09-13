@@ -1,5 +1,5 @@
 // src/components/sidebar.jsx
-import { Home, ClipboardList, Database, DollarSign, HelpCircle, Users, MessageSquare, X } from "lucide-react";
+import { Home, ClipboardList, Database, DollarSign, HelpCircle, Users, MessageSquare, ClipboardList, X } from "lucide-react";
 
 export function Sidebar({ active, setActive, isOpen, onClose }) {
   const menus = [
@@ -9,7 +9,9 @@ export function Sidebar({ active, setActive, isOpen, onClose }) {
     { key: "biaya", label: "Biaya", icon: DollarSign },
     { key: "faq", label: "FAQ", icon: HelpCircle },
     { key: "users", label: "Users WA", icon: Users },
-    { key: "pesan_log", label: "Pesan Log", icon: MessageSquare }
+    { key: "pesan_log", label: "Pesan Log", icon: MessageSquare },
+    { key: "formsteps", label: "Form Steps", icon: ClipboardList },
+
   ];
 
   return (
