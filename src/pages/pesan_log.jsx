@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseclient";
 
-export default function PesanLog() {
+export default function Pesan() {
   const [data, setData] = useState([]);
   const [form, setForm] = useState({
     id: null,
