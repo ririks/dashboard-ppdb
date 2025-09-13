@@ -7,7 +7,7 @@ import Biaya from "./biaya";
 import Faq from "./faq";
 import Users from "./user";
 import Pesan from "./pesan_log";
-import formsteps from "./form_steps";
+import Formsteps from "./form_steps";
 import { Menu } from "lucide-react";
 
 export default function Dashboard() {
