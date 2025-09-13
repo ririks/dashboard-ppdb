@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseclient";
 
-export default function formsteps() {
+export default function Formsteps() {
   const [data, setData] = useState([]);
   const [form, setForm] = useState({
     id: null,
