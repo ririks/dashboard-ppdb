@@ -6,6 +6,7 @@ import Kuota from "./kuota";
 import Biaya from "./biaya";
 import Faq from "./faq";
 import Users from "./user";
+import Pesan from "./pesan_log";
 import { Menu } from "lucide-react";
 
 export default function Dashboard() {
@@ -43,6 +44,7 @@ export default function Dashboard() {
           {active === "biaya" && <Biaya />}
           {active === "faq" && <Faq />}
           {active === "users" && <Users />}
+          {active === "pesan_log" && <Pesan />}
         </div>
       </div>
     </div>
