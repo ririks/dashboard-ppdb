@@ -5,6 +5,8 @@ import Faq from "./pages/faq";
 import Users from "./pages/user";
 import Beranda from "./pages/beranda";
 import Daftar from "./pages/daftar";
+import Pesan from "./pages/pesan_log";
+
 import { Menu, X } from "lucide-react";
 
 function Sidebar({ active, setActive, isOpen, onClose }) {
@@ -15,6 +17,7 @@ function Sidebar({ active, setActive, isOpen, onClose }) {
     { key: "biaya", label: "Biaya" },
     { key: "faq", label: "FAQ" },
     { key: "users", label: "Users WA" },
+  { key: "pesan", label: "Pesan Log" },
   ];
 
   return (
