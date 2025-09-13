@@ -10,7 +10,7 @@ export function Sidebar({ active, setActive, isOpen, onClose }) {
     { key: "faq", label: "FAQ", icon: HelpCircle },
     { key: "users", label: "Users WA", icon: Users },
     { key: "pesan_log", label: "Pesan Log", icon: MessageSquare },
-    { key: "formsteps", label: "Form Steps", icon: ClipboardList },
+    { key: "form_steps", label: "Form Steps", icon: ClipboardList },
 
   ];
 
