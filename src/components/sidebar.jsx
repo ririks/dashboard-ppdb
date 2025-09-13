@@ -9,7 +9,7 @@ export function Sidebar({ active, setActive, isOpen, onClose }) {
     { key: "biaya", label: "Biaya", icon: DollarSign },
     { key: "faq", label: "FAQ", icon: HelpCircle },
     { key: "users", label: "Users WA", icon: Users },
-    { key: "pesan", label: "Pesan Log", icon: MessageSquare }
+    { key: "pesan_log", label: "Pesan Log", icon: MessageSquare }
   ];
 
   return (
